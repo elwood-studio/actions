@@ -17,3 +17,11 @@ export async function addFileToStage(...files: string[]): Promise<void> {
 export async function setOutput(key: string, value: string): Promise<void> {
   await runCommand("setOutput", [key, value]);
 }
+
+export async function setJsonOutput(key: string, value: Record<string, any>): Promise<void> {
+  return await setOutput(key, `json:${JSON.stringify(value)}`);
+}
+
+export async function setEnv(key:string,value:string): Promise<void> {
+  await runCommand('setEnv', [key, value]);
+}

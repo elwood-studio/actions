@@ -11,7 +11,7 @@ export async function ffprobe(args: string[]): Promise<string> {
   // and we don't get a verbose banner
   args.unshift("-y");
   args.unshift("-hide_banner");
-
+w
   // we only care about the output
   // the status code is never right 
   // so we ignore
@@ -26,7 +26,7 @@ async function main() {
   // we get from the INPUT_ env
   // these are are sanitized by the bridge server
   // so there isn't a need to check them here
-  const data = await ffprobe(args.split(" "));
+  await ffprobe(args.split(" "));
 
 }
 

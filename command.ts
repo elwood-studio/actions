@@ -5,7 +5,7 @@ export type RunCommandOutput = {
 
 export async function runCommand(
   name: string,
-  args: string[]
+  args: Array<string | undefined | null>
 ): Promise<RunCommandOutput> {
   const execution_id = Deno.env.get("EXECUTION_ID");
 
