@@ -5,7 +5,7 @@ export type RunCommandOutput = {
 
 export async function runCommand(
   name: string,
-  args: any,
+  args: string[]
 ): Promise<RunCommandOutput> {
   const execution_id = Deno.env.get("EXECUTION_ID");
 
@@ -22,7 +22,7 @@ export async function runCommand(
   });
 
   if (response.status !== 200) {
-    throw new Error(`Command failed with status ${response.status}`);
+    throw new Error(`Command "${name}(${JSON.stringify(args)})" failed with status ${response.status}`);
   }
 
   const { code, data } = await response.json();
