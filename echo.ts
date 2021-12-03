@@ -1,4 +1,4 @@
-import { getInput } from "./core";
+import { getInput } from "./core.ts";
 
 
 async function main() {
