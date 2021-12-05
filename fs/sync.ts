@@ -3,13 +3,12 @@ import { join, relative } from "https://deno.land/std@0.115.1/path/mod.ts";
 import { runCommand } from "../command.ts";
 import { addFileToStage, getInput } from "../core.ts";
 
-export type IoPullInput = {
-  src: string | string[];
-  dest?: string;
-  rename?: string;
+export type FSSyncInput = {
+    src: string[];
+    dest: string;
 };
 
-export async function ioPull(input: IoPullInput): Promise<string> {
+export async function fsSync(input: FSSyncInput): Promise<string> {
   if (Array.isArray(input.src) && input.rename) {
     throw new Error("Cannot use both src[] and rename");
   }
@@ -24,16 +23,10 @@ export async function ioPull(input: IoPullInput): Promise<string> {
 }
 
 async function main() {
-  const src = getInput("src");
-  const rename = getInput("rename", false);
+  const ignore = getInput("ignore", false);
+  const dest = getInput("dest");
 
-  // create a temp director that the files will end up in
-  // we need a good way of knowing what was added to the stage
-  const tmpDest = join(Deno.cwd(), "tmp");
-
-  await Deno.mkdir(tmpDest, { recursive: true });
-
-  await ioPull({
+  await fsSync({
     src: [src],
     dest: tmpDest,
     rename,
