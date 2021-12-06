@@ -41,7 +41,7 @@ async function killCommandServer() {
 }
 
 Deno.test("command is run", async () => {
-//   await startCommandServer();
+  //   await startCommandServer();
 
   const { body } = await runCommand("addFile", {
     file: "xxx",
@@ -49,5 +49,5 @@ Deno.test("command is run", async () => {
 
   assertEquals(body, { name: "addFile", args: { file: "xxx" } });
 
-//   await killCommandServer();
+  //   await killCommandServer();
 });

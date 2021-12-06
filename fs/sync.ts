@@ -4,8 +4,8 @@ import { runCommand } from "../command.ts";
 import { addFileToStage, getInput } from "../core.ts";
 
 export type FSSyncInput = {
-    src: string[];
-    dest: string;
+  src: string[];
+  dest: string;
 };
 
 export async function fsSync(input: FSSyncInput): Promise<string> {

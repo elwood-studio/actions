@@ -1,4 +1,3 @@
-
 import { runCommand } from "../command.ts";
 import { getInput } from "../core.ts";
 
@@ -14,11 +13,9 @@ export async function awsCli(args: string[]): Promise<string> {
 }
 
 async function main() {
-  const args = (getInput('command', false) ?? "").split(" ");
-
+  const args = (getInput("command", false) ?? "").split(" ");
 
   await awsCli(args);
-
 }
 
 if (import.meta.main) {

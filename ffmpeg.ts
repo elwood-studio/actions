@@ -29,9 +29,9 @@ export async function ffmpeg(args: string[]): Promise<string> {
 }
 
 async function main() {
-  const args = (getInput('command', false) ?? "").split(" ");
+  const args = (getInput("command", false) ?? "").split(" ");
   const output = getInput("output", false);
-  const outputGlobs = getInput('output_globs', false);
+  const outputGlobs = getInput("output_globs", false);
 
   if (output) {
     args.push(output);

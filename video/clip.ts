@@ -1,7 +1,6 @@
 import { addFileToStage, getInput } from "../core.ts";
 import { ffmpeg } from "../ffmpeg.ts";
 
-
 export type VideoClipInput = {
   src: string;
   output: string;

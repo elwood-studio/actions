@@ -31,7 +31,7 @@ async function main() {
     src,
     output,
     fps,
-    size
+    size,
   });
 
   if (output) {
