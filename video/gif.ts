@@ -3,13 +3,13 @@ import { ffmpeg } from "../ffmpeg.ts";
 
 export type VideoGifInput = {
   src: string;
-  output: string;
+  dest: string;
   fps?: string;
   size?: string;
 };
 
 export async function videoGif(input: VideoGifInput) {
-  const { src, output, fps = "10", size = "320" } = input;
+  const { src, dest, fps = "10", size = "320" } = input;
   await ffmpeg([
     "-i",
     src,
@@ -17,25 +17,26 @@ export async function videoGif(input: VideoGifInput) {
     `fps=${fps},scale=${size}:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse`,
     "-loop",
     "0",
-    output,
+    dest,
   ]);
 }
 
 async function main() {
   const src = getInput("src");
-  const output = getInput("output");
+  const dest = getInput("dest");
+  const stage = getInput("stage", false);
   const fps = getInput("fps", false);
   const size = getInput("size", false);
 
   await videoGif({
     src,
-    output,
+    dest,
     fps,
     size,
   });
 
-  if (output) {
-    addFileToStage(output);
+  if (stage) {
+    addFileToStage(dest);
   }
 }
 

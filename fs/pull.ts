@@ -1,23 +1,17 @@
-import { expandGlob } from "https://deno.land/std@0.115.1/fs/mod.ts";
-import { join, relative } from "https://deno.land/std@0.115.1/path/mod.ts";
+import { ensureDir } from "https://deno.land/std@0.115.1/fs/mod.ts";
+import { basename, dirname, relative } from "https://deno.land/std@0.115.1/path/mod.ts";
 import { runCommand } from "../command.ts";
-import { addFileToStage, getInput } from "../core.ts";
+import { addFileToStage, getBooleanInput, getInput } from "../core.ts";
 
 export type FsPullInput = {
-  src: string | string[];
-  dest?: string;
-  rename?: string;
+  src: string;
+  dest: string;
 };
 
 export async function fsPull(input: FsPullInput): Promise<string> {
-  if (Array.isArray(input.src) && input.rename) {
-    throw new Error("Cannot use both src[] and rename");
-  }
-
   const { data } = await runCommand("pull", [
-    JSON.stringify(input.src),
+    input.src,
     input.dest,
-    input.rename,
   ]);
 
   return data;
@@ -25,32 +19,31 @@ export async function fsPull(input: FsPullInput): Promise<string> {
 
 async function main() {
   const src = getInput("src");
-  const rename = getInput("rename", false);
+  const dest = getInput("dest");
+  const addToStage = getBooleanInput("stage", false) ?? false;
 
   // create a temp director that the files will end up in
   // we need a good way of knowing what was added to the stage
-  const tmpDest = join(Deno.cwd(), "tmp");
+  const destDir = dirname(dest);
 
-  await Deno.mkdir(tmpDest, { recursive: true });
-
+  await ensureDir(destDir);
   await fsPull({
-    src: [src],
-    dest: tmpDest,
-    rename,
+    src,
+    dest,
   });
 
-  const cwd = Deno.cwd();
 
-  // we need to move the files from the tempDest into the dest
-  // that was requested. then we need to add them to the stage
-  for await (const file of expandGlob(`${tmpDest}/**/*`)) {
-    if (file.isFile) {
-      const relPath = relative(tmpDest, file.path);
-      const destPath = join(cwd, relPath);
+  if (addToStage) {
+    const cwd = Deno.cwd();
+    const stat = Deno.statSync(dest);
 
-      await Deno.rename(file.path, destPath);
-      await addFileToStage(relPath);
+    if (stat.isDirectory) {
+      await addFileToStage(relative(cwd, basename(src)));
     }
+    else {
+      await addFileToStage(relative(cwd, basename(dest)));
+    }
+    
   }
 }
 

@@ -1,7 +1,7 @@
 import { expandGlob } from "https://deno.land/std@0.115.1/fs/mod.ts";
 import { relative } from "https://deno.land/std@0.115.1/path/mod.ts";
 import { runCommand } from "./command.ts";
-import { addFileToStage, getInput } from "./core.ts";
+import { addFileToStage, getInput, inPath, setOutput } from "./core.ts";
 
 export async function ffmpeg(args: string[]): Promise<string> {
   const cleanArgs = args.map((arg) => arg.trim()).filter((arg) => arg !== "");
@@ -18,20 +18,30 @@ export async function ffmpeg(args: string[]): Promise<string> {
 
   // add these to make sure ffmpeg doesn't get stuck
   // and we don't get a verbose banner
-  args.unshift("-y");
-  args.unshift("-hide_banner");
+  cleanArgs.unshift("-y");
+  cleanArgs.unshift("-hide_banner");
+
+  if (inPath("ffmpeg")) {
+    const p = Deno.run({
+      cmd: ["ffmpeg", ...cleanArgs],
+    })
+
+    return (await p.output()).toString();
+  }
+  else {
 
   // we only care about the output
   // the status code is never right
   // so we ignore
   const { data } = await runCommand("ffmpeg", cleanArgs);
   return data;
+  }
 }
 
 async function main() {
   const args = (getInput("command", false) ?? "").split(" ");
   const output = getInput("output", false);
-  const outputGlobs = getInput("output_globs", false);
+  const stage = getInput("stage", false);
 
   if (output) {
     args.push(output);
@@ -41,17 +51,15 @@ async function main() {
   // we get from the INPUT_ env
   // these are are sanitized by the bridge server
   // so there isn't a need to check them here
-  await ffmpeg(args);
+  const data = await ffmpeg(args);
 
-  // if there is an output file specified
-  // add it to the stage
   if (output) {
-    addFileToStage(output);
+    await setOutput(output, data);
   }
-
-  if (outputGlobs) {
+ 
+  if (stage) {
     const cwd = Deno.cwd();
-    const globPaths = outputGlobs.split(",");
+    const globPaths = stage.split(",");
 
     for (const globPath of globPaths) {
       for await (const file of expandGlob(globPath)) {
