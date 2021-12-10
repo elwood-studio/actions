@@ -6,8 +6,6 @@ async function main() {
   const file = getInput("file", false);
   const decode = getInput("decode", false);
 
-  console.log(message, file, decode);
-
   if (message) {
     console.log(message);
   }
@@ -28,4 +26,3 @@ if (import.meta.main) {
   main();
 }
 
-console.log("xxx");
