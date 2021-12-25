@@ -1,7 +1,7 @@
 import { expandGlob } from "https://deno.land/std@0.115.1/fs/mod.ts";
 import { relative } from "https://deno.land/std@0.115.1/path/mod.ts";
-import { runCommand } from "./command.ts";
-import { addFileToStage, getInput, inPath, setOutput } from "./core.ts";
+import { runCommand } from "../command.ts";
+import { addFileToStage, getInput, inPath, setOutput } from "../core.ts";
 
 export async function ffmpeg(args: string[]): Promise<string> {
   const cleanArgs = args.map((arg) => arg.trim()).filter((arg) => arg !== "");

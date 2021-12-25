@@ -1,4 +1,4 @@
-import { runCommand } from "./command.ts";
+import { runCommand } from "../command.ts";
 
 export async function ffprobe(args: string[]): Promise<string> {
   const cleanArgs = args.map((arg) => arg.trim()).filter((arg) => arg !== "");
