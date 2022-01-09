@@ -1,4 +1,4 @@
-import { addFileToStage, getInput } from "../core.ts";
+import {  getInput } from "../core.ts";
 import { ffmpeg } from "../ffmpeg.ts";
 
 export type VideoGifInput = {
@@ -35,9 +35,6 @@ async function main() {
     size,
   });
 
-  if (stage) {
-    addFileToStage(dest);
-  }
 }
 
 if (import.meta.main) {

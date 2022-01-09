@@ -1,4 +1,4 @@
-import { addFileToStage, getInput } from "../core.ts";
+import {  getInput } from "../core.ts";
 import { ffmpeg } from "../ffmpeg.ts";
 
 export type VideoClipInput = {
@@ -36,11 +36,6 @@ async function main() {
     end,
   });
 
-  // if there is an output file specified
-  // add it to the stage
-  if (output) {
-    addFileToStage(output);
-  }
 }
 
 if (import.meta.main) {

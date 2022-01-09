@@ -1,7 +1,7 @@
 import { ensureDir } from "https://deno.land/std@0.115.1/fs/mod.ts";
 import { basename, dirname, relative } from "https://deno.land/std@0.115.1/path/mod.ts";
 import { runCommand } from "../command.ts";
-import { addFileToStage, getBooleanInput, getInput } from "../core.ts";
+import {  getBooleanInput, getInput } from "../core.ts";
 
 export type FsPullInput = {
   src: string;
@@ -31,20 +31,6 @@ async function main() {
     src,
     dest,
   });
-
-
-  if (addToStage) {
-    const cwd = Deno.cwd();
-    const stat = Deno.statSync(dest);
-
-    if (stat.isDirectory) {
-      await addFileToStage(relative(cwd, basename(src)));
-    }
-    else {
-      await addFileToStage(relative(cwd, basename(dest)));
-    }
-    
-  }
 }
 
 if (import.meta.main) {
