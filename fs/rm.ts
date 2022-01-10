@@ -1,23 +1,17 @@
-import { getBooleanInput, getInput } from "../core.ts";
+import { getInput } from "../core.ts";
 
-export type FsRemoveInput = {
-  path:string;
-  force?:boolean;
+export type FSRemoveInput = {
+  path: string;
 };
 
-export async function fsRemove(input: FsRemoveInput): Promise<void> {
-  const { path, force = false } = input;
-  await Deno.remove(path, { recursive: force });
+export async function fsRemove(input: FSRemoveInput): Promise<void> {
+  const { path } = input;
+  await Deno.remove(path, { recursive: true });
 }
 
 async function main() {
   const path = getInput("path");
-  const force = getBooleanInput("force", false);
-
-  await fsRemove({
-    path,
-    force
-  });
+  await fsRemove({ path });
 }
 
 if (import.meta.main) {

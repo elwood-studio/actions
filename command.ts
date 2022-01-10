@@ -13,7 +13,7 @@ export async function runCommand(
   if (!execution_id) {
     throw new Error("No EXECUTION_ID");
   }
-  
+
   if (!execution_server_url) {
     throw new Error("No EXECUTION_SERVER_URL");
   }
@@ -26,7 +26,7 @@ export async function runCommand(
     body: JSON.stringify({ execution_id, name, args }),
   });
 
-  console.log(`response ${response.status}`)
+  console.log(`response ${response.status}`);
 
   if (response.status !== 200) {
     throw new Error(

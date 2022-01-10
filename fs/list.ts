@@ -15,8 +15,6 @@ async function main() {
   const echo = getBooleanInput("echo", false);
   const items = [];
 
-
-
   for await (const item of fsList({ dir })) {
     items.push(item);
   }

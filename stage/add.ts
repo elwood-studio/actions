@@ -1,20 +1,27 @@
+import { runCommand } from "../command.ts";
+import { getInput } from "../core.ts";
 
-import { addFileToStage, getBooleanInput, getInput } from "../core.ts";
+export async function stageAddTo(files: string[]): Promise<void> {
+  await runCommand("addToStage", files);
+}
 
+export async function stageAddFrom(files: string[]): Promise<void> {
+  await runCommand("addFromStage", files);
+}
 
 async function main() {
-  const path = getInput("path");
-  const force = getBooleanInput("force", false);
+  const to = getInput("to", false);
+  const from = getInput("from", false);
 
-  if (force === true && !Deno.statSync(path).isFile) {
-    throw new Error("Path is not a file");
+  if (to) {
+    await stageAddTo(to.split(","));
   }
 
-  addFileToStage(path)
-  
+  if (from) {
+    await stageAddFrom(from.split(","));
+  }
 }
 
 if (import.meta.main) {
   main();
 }
-

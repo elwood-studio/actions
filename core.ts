@@ -28,13 +28,8 @@ export function getBooleanInput(name: string, strict = true): boolean {
       return false;
   }
 }
-
-export async function addFileToStage(...files: string[]): Promise<void> {
-  await runCommand("addFile", files);
-}
-
 export async function setOutput(key: string, value: string): Promise<void> {
-  console.log('set output')
+  console.log("set output");
 
   await runCommand("setOutput", [key, value]);
 }

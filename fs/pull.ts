@@ -21,7 +21,6 @@ async function main() {
   const src = getInput("src");
   const dest = getInput("dest");
 
-
   // create a temp director that the files will end up in
   // we need a good way of knowing what was added to the stage
   const destDir = dirname(dest);
@@ -31,7 +30,6 @@ async function main() {
     src,
     dest,
   });
-
 }
 
 if (import.meta.main) {

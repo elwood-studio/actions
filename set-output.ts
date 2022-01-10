@@ -1,4 +1,3 @@
-
 import { getInput, setOutput } from "./core.ts";
 
 async function main() {
@@ -11,4 +10,3 @@ async function main() {
 if (import.meta.main) {
   main();
 }
-

@@ -1,14 +1,13 @@
 import {
   dirname,
   fromFileUrl,
-  resolve
+  resolve,
 } from "https://deno.land/std@0.115.0/path/mod.ts";
 import {
   assert,
-  assertEquals
+  assertEquals,
 } from "https://deno.land/std@0.115.0/testing/asserts.ts";
 import { runCommand } from "../command.ts";
-
 
 let server: Deno.Process<Deno.RunOptions & { stdout: "piped" }>;
 
