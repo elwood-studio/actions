@@ -1,16 +1,14 @@
 import {
-  assert,
-  assertEquals,
-} from "https://deno.land/std@0.115.0/testing/asserts.ts";
-import { BufReader } from "https://deno.land/std@0.115.0/io/bufio.ts";
-import { TextProtoReader } from "https://deno.land/std@0.115.0/textproto/mod.ts";
-import {
   dirname,
   fromFileUrl,
-  resolve,
+  resolve
 } from "https://deno.land/std@0.115.0/path/mod.ts";
+import {
+  assert,
+  assertEquals
+} from "https://deno.land/std@0.115.0/testing/asserts.ts";
+import { runCommand } from "../command.ts";
 
-import { runCommand } from "./command.ts";
 
 let server: Deno.Process<Deno.RunOptions & { stdout: "piped" }>;
 

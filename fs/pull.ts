@@ -1,7 +1,7 @@
 import { ensureDir } from "https://deno.land/std@0.115.1/fs/mod.ts";
-import { basename, dirname, relative } from "https://deno.land/std@0.115.1/path/mod.ts";
+import { dirname } from "https://deno.land/std@0.115.1/path/mod.ts";
 import { runCommand } from "../command.ts";
-import { addFileToStage, getBooleanInput, getInput } from "../core.ts";
+import { getInput } from "../core.ts";
 
 export type FsPullInput = {
   src: string;
@@ -20,7 +20,7 @@ export async function fsPull(input: FsPullInput): Promise<string> {
 async function main() {
   const src = getInput("src");
   const dest = getInput("dest");
-  const addToStage = getBooleanInput("stage", false) ?? false;
+
 
   // create a temp director that the files will end up in
   // we need a good way of knowing what was added to the stage
@@ -32,19 +32,6 @@ async function main() {
     dest,
   });
 
-
-  if (addToStage) {
-    const cwd = Deno.cwd();
-    const stat = Deno.statSync(dest);
-
-    if (stat.isDirectory) {
-      await addFileToStage(relative(cwd, basename(src)));
-    }
-    else {
-      await addFileToStage(relative(cwd, basename(dest)));
-    }
-    
-  }
 }
 
 if (import.meta.main) {

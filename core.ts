@@ -34,6 +34,8 @@ export async function addFileToStage(...files: string[]): Promise<void> {
 }
 
 export async function setOutput(key: string, value: string): Promise<void> {
+  console.log('set output')
+
   await runCommand("setOutput", [key, value]);
 }
 
