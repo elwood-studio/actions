@@ -39,13 +39,8 @@ export async function ffmpeg(args: string[]): Promise<string> {
 }
 
 async function main() {
-  const args = (getInput("command", false) ?? "").split(" ");
-  const output = getInput("output", false);
+  const args = (getInput("args", false) ?? getInput("command", false) ?? "").split(" ");
 
-
-  if (output) {
-    args.push(output);
-  }
 
   // run the ffmpeg command with the args
   // we get from the INPUT_ env
