@@ -6,7 +6,14 @@ export type FSRemoveInput = {
 
 export async function fsRemove(input: FSRemoveInput): Promise<void> {
   const { path } = input;
-  await Deno.remove(path, { recursive: true });
+
+  try {
+    if (Deno.statSync(path)) {
+      await Deno.remove(path, { recursive: true });
+    }
+  } catch (_) {
+    // don't do anything if the file doesn't exist
+  }
 }
 
 async function main() {

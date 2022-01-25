@@ -2,6 +2,4 @@
   "deno.enable": true,
   "editor.formatOnSave": true,
   "editor.formatOnPaste": false,
-  "eslint.enable": false,
-  "prettier.enable": false
 }
