@@ -26,8 +26,6 @@ export async function runCommand(
     body: JSON.stringify({ execution_id, name, args }),
   });
 
-  console.log(`response ${response.status}`);
-
   if (response.status !== 200) {
     throw new Error(
       `Command "${name}(${
