@@ -1,3 +1,5 @@
+let lastResponseBody: any = null;
+
 export type RunCommandOutput = {
   code: number | null;
   data: string;
@@ -34,6 +36,11 @@ export async function runCommand(
     );
   }
 
-  const { code, data } = await response.json();
+  lastResponseBody = await response.json();
+  const { code, data } = lastResponseBody;
   return { code, data };
+}
+
+export function getLastResponseBody() {
+  return lastResponseBody;
 }

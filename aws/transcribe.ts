@@ -1,41 +1,17 @@
-import { fromEnv } from "https://deno.land/x/aws_sdk@v3.32.0-1/credential-provider-env/mod.ts";
-import { Transcribe } from "https://deno.land/x/aws_sdk@v3.32.0-1/client-transcribe/mod.ts";
-import {
-  S3Client,
-  waitUntilObjectExists,
-} from "https://deno.land/x/aws_sdk@v3.32.0-1/client-s3/mod.ts";
+import { join } from "https://deno.land/std@0.123.0/path/mod.ts";
 
 import { getInput } from "../core.ts";
 
+import { github } from "../github.ts";
+
 async function main() {
-  const client = new Transcribe({
-    credentials: fromEnv(),
-  });
-  const s3 = new S3Client({
-    credentials: fromEnv(),
-  });
+  const dest = join(Deno.cwd(), crypto.randomUUID());
 
-  const jobName = getInput("job_name");
-  const src = getInput("src");
-  const outputBucketName = getInput("output_bucket");
-  const outputKey = getInput("output_key");
-
-  const result = await client.startTranscriptionJob({
-    TranscriptionJobName: jobName,
-    Media: { MediaFileUri: src },
-    OutputBucketName: outputBucketName,
-    OutputKey: outputKey,
+  await github({
+    repo: "elwood-studio/actions-aws",
+    entry: "transcribe.js",
+    dest,
   });
-
-  if (result.TranscriptionJob?.TranscriptionJobStatus !== "FAILED") {
-    await waitUntilObjectExists({
-      client: s3,
-      maxWaitTime: 60 * 10,
-    }, {
-      Bucket: outputBucketName,
-      Key: outputKey,
-    });
-  }
 }
 
 if (import.meta.main) {
