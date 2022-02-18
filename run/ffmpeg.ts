@@ -7,7 +7,7 @@ export async function ffmpeg(args: string[]): Promise<string> {
   const cleanArgs = args.map((arg) => arg.trim()).filter((arg) => arg !== "");
 
   if (cleanArgs.length === 0) {
-    throw new Error("No ffmpeg command provided");
+    throw new Error("No ffmpeg args provided");
   }
 
   // if the first arg is ffmpeg
@@ -21,6 +21,8 @@ export async function ffmpeg(args: string[]): Promise<string> {
   cleanArgs.unshift("-y");
   cleanArgs.unshift("-hide_banner");
 
+  // check to see if ffmpeg has been installed
+  // locally. if yes, use that instead of issuing a command
   if (inPath("ffmpeg")) {
     const p = Deno.run({
       cmd: ["ffmpeg", ...cleanArgs],
@@ -39,16 +41,7 @@ export async function ffmpeg(args: string[]): Promise<string> {
 async function main() {
   const args = (getInput("args", false) ?? getInput("command", false) ?? "")
     .split(" ");
-
-  // run the ffmpeg command with the args
-  // we get from the INPUT_ env
-  // these are are sanitized by the bridge server
-  // so there isn't a need to check them here
-  const data = await ffmpeg(args);
-
-  if (output) {
-    await setOutput(output, data);
-  }
+  await ffmpeg(args);
 }
 
 if (import.meta.main) {

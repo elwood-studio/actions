@@ -1,3 +1,5 @@
+let lastResponseBody: any = null;
+
 export type RunCommandOutput = {
   code: number | null;
   data: string;
@@ -26,8 +28,6 @@ export async function runCommand(
     body: JSON.stringify({ execution_id, name, args }),
   });
 
-  console.log(`response ${response.status}`);
-
   if (response.status !== 200) {
     throw new Error(
       `Command "${name}(${
@@ -36,6 +36,11 @@ export async function runCommand(
     );
   }
 
-  const { code, data } = await response.json();
+  lastResponseBody = await response.json();
+  const { code, data } = lastResponseBody;
   return { code, data };
+}
+
+export function getLastResponseBody() {
+  return lastResponseBody;
 }

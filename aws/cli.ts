@@ -8,12 +8,12 @@ export async function awsCli(args: string[]): Promise<string> {
     throw new Error("No aws-cli command provided");
   }
 
-  const { code, data } = await runCommand("aws-cli", cleanArgs);
+  const { data } = await runCommand("aws-cli", cleanArgs);
   return data;
 }
 
 async function main() {
-  const args = (getInput("command", false) ?? "").split(" ");
+  const args = (getInput("args", false) ?? "").split(" ");
 
   await awsCli(args);
 }
