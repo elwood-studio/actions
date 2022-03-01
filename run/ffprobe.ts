@@ -18,8 +18,6 @@ export async function ffprobe(
 
   // add these to make sure ffmpeg doesn't get stuck
   // and we don't get a verbose banner
-  args.unshift("-y");
-  args.unshift("-hide_banner");
   args.unshift("-v", "quiet");
 
   if (options.json) {
