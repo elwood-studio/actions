@@ -1,4 +1,4 @@
-import { runCommand } from "../command.ts";
+import { runCommand } from "./command.ts";
 import { getBooleanInput, getInput } from "../core.ts";
 import { fsWrite } from "../fs/write.ts";
 

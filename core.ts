@@ -1,5 +1,5 @@
 import * as base64 from "https://deno.land/std@0.115.1/encoding/base64.ts";
-import { runCommand } from "./command.ts";
+import { runCommand } from "./run/command.ts";
 
 export function getInput(name: string, strict = true): string {
   const inputEnvName = `INPUT_${name.toUpperCase()}`;

@@ -1,4 +1,4 @@
-import { runCommand } from "../command.ts";
+import { runCommand } from "../run/command.ts";
 
 export async function stageSync(): Promise<void> {
   await runCommand("syncStage", []);

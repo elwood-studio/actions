@@ -1,7 +1,7 @@
 import { writableStreamFromWriter } from "https://deno.land/std@0.127.0/streams/mod.ts";
 import { ensureDir } from "https://deno.land/std@0.127.0/fs/mod.ts";
 import { dirname } from "https://deno.land/std@0.127.0/path/mod.ts";
-import { runCommand } from "../command.ts";
+import { runCommand } from "../run/command.ts";
 import { getInput, inPath } from "../core.ts";
 
 export type FsPullInput = {

@@ -1,4 +1,4 @@
-import { runCommand } from "./command.ts";
+import { runCommand } from "./run/command.ts";
 
 async function main() {
   await runCommand("wait", []);

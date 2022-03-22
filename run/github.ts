@@ -1,8 +1,8 @@
 import { join } from "https://deno.land/std@0.123.0/path/mod.ts";
 
-import { getInput } from "./core.ts";
-import { runAction } from "./run/action.ts";
-import { gitCheckout } from "./git/checkout.ts";
+import { getInput } from "../core.ts";
+import { runAction } from "./action.ts";
+import { gitCheckout } from "../git/checkout.ts";
 
 export type GithubInput = {
   repo: string;

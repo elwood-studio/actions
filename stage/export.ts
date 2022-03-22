@@ -1,6 +1,6 @@
 import { expandGlobSync } from "https://deno.land/std@0.122.0/fs/mod.ts";
 
-import { runCommand } from "../command.ts";
+import { runCommand } from "../run/command.ts";
 import { getInput } from "../core.ts";
 
 export async function exportToStage(files: string[]): Promise<void> {

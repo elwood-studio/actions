@@ -5,7 +5,7 @@ import {
   killCommandServer,
   startCommandServer,
 } from "../_tools/command_server.js";
-import { getLastResponseBody } from "../command.ts";
+import { getLastResponseBody } from "./command.ts";
 
 import { runAction } from "./action.ts";
 

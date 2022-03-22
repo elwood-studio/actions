@@ -1,7 +1,12 @@
-[
-    {
-        "name": "dropbox",
-        "uri": "github://elwood-studio/actions-dropbox",
-        "defaultEntry": "dist/index.js"
-    }
-]
+{
+  "version": "0.1",
+  "actions": [{
+    "name": "dropbox",
+    "uri": "github://elwood-studio/actions-dropbox",
+    "default_entry": "dist/index.js"
+  }, {
+    "name": "aws",
+    "uri": "github://elwood-studio/actions-aws",
+    "default_entry": "dist/index.js"
+  }]
+}

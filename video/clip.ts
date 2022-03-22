@@ -1,5 +1,5 @@
 import { getInput } from "../core.ts";
-import { ffmpeg } from "../ffmpeg.ts";
+import { ffmpeg } from "../run/ffmpeg.ts";
 
 export type VideoClipInput = {
   src: string;

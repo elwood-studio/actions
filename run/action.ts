@@ -1,7 +1,7 @@
 import { join } from "https://deno.land/std@0.123.0/path/mod.ts";
 
 import { getInput, setOutput } from "../core.ts";
-import { runCommand } from "../command.ts";
+import { runCommand } from "./command.ts";
 
 export type RunActionInput = {
   dir?: string;

@@ -3,7 +3,7 @@ import { assertEquals } from "https://deno.land/std@0.122.0/testing/asserts.ts";
 import {
   killCommandServer,
   startCommandServer,
-} from "./_tools/command_server.js";
+} from "../_tools/command_server.js";
 import { runCommand } from "./command.ts";
 
 Deno.test({
