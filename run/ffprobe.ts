@@ -1,6 +1,15 @@
 import { runCommand } from "../command.ts";
+import { getBooleanInput, getInput } from "../core.ts";
+import { fsWrite } from "../fs/write.ts";
 
-export async function ffprobe(args: string[]): Promise<string> {
+export type FFProbeOptions = {
+  json?: boolean;
+};
+
+export async function ffprobe(
+  args: string[],
+  options: FFProbeOptions = {},
+): Promise<string> {
   const cleanArgs = args.map((arg) => arg.trim()).filter((arg) => arg !== "");
 
   if (cleanArgs.length === 0) {
@@ -9,9 +18,12 @@ export async function ffprobe(args: string[]): Promise<string> {
 
   // add these to make sure ffmpeg doesn't get stuck
   // and we don't get a verbose banner
-  args.unshift("-y");
-  args.unshift("-hide_banner");
-  w;
+  cleanArgs.unshift("-v", "quiet");
+
+  if (options.json) {
+    cleanArgs.unshift("-print_format", "json");
+  }
+
   // we only care about the output
   // the status code is never right
   // so we ignore
@@ -20,13 +32,20 @@ export async function ffprobe(args: string[]): Promise<string> {
 }
 
 async function main() {
-  const args = Deno.env.get("INPUT_COMMAND") || "";
+  const args = getInput("args");
+  const save_to = getInput("save_to", false);
+  const as_json = getBooleanInput("as_json", false);
 
-  // run the ffmpeg command with the args
-  // we get from the INPUT_ env
-  // these are are sanitized by the bridge server
-  // so there isn't a need to check them here
-  await ffprobe(args.split(" "));
+  const data = await ffprobe(args.split(" "), {
+    json: as_json,
+  });
+
+  if (save_to) {
+    await fsWrite({
+      dest: save_to,
+      content: data,
+    });
+  }
 }
 
 if (import.meta.main) {

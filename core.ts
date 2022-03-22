@@ -28,8 +28,13 @@ export function getBooleanInput(name: string, strict = true): boolean {
       return false;
   }
 }
-export async function setOutput(key: string, value: string): Promise<void> {
-  console.log("set output");
+export async function setOutput(
+  key: string,
+  value: string | Record<string, any>,
+): Promise<void> {
+  if (typeof value !== "string") {
+    return await setJsonOutput(key, value);
+  }
 
   await runCommand("setOutput", [key, value]);
 }
