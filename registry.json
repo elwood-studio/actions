@@ -1,0 +1,7 @@
+[
+    {
+        "name": "dropbox",
+        "uri": "github://elwood-studio/actions-dropbox",
+        "defaultEntry": "dist/index.js"
+    }
+]
