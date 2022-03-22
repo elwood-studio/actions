@@ -18,10 +18,10 @@ export async function ffprobe(
 
   // add these to make sure ffmpeg doesn't get stuck
   // and we don't get a verbose banner
-  args.unshift("-v", "quiet");
+  cleanArgs.unshift("-v", "quiet");
 
   if (options.json) {
-    args.unshift("-print_format", "json");
+    cleanArgs.unshift("-print_format", "json");
   }
 
   // we only care about the output
