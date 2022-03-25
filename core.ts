@@ -1,7 +1,10 @@
 import * as base64 from "https://deno.land/std@0.115.1/encoding/base64.ts";
 import { runCommand } from "./run/command.ts";
 
-export function getInput(name: string, strict = true): string {
+export function getInput(
+  name: string,
+  strict = true,
+): string {
   const inputEnvName = `INPUT_${name.toUpperCase()}`;
 
   if (strict && !Deno.env.get(inputEnvName)) {
@@ -9,6 +12,19 @@ export function getInput(name: string, strict = true): string {
   }
 
   return Deno.env.get(inputEnvName) as string;
+}
+
+export function getInputWithJson(
+  name: string,
+  strict = true,
+): string | Record<string, any> | any[] {
+  const value = getInput(name, strict);
+
+  if (value.startsWith("json:")) {
+    return JSON.parse(value.substring(5));
+  }
+
+  return value;
 }
 
 export function getBooleanInput(name: string, strict = true): boolean {
