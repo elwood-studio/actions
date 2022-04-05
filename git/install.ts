@@ -1,6 +1,8 @@
 import { join } from "https://deno.land/std@0.123.0/path/mod.ts";
 import { inPath } from "../core.ts";
 
+import { gitRun } from "./run.ts";
+
 export async function gitInstall() {
   if (inPath("git")) {
     return;
@@ -25,4 +27,12 @@ export async function gitInstall() {
   proc.close();
   stdout.close();
   stderr.close();
+
+  await gitRun({
+    args: ["config", "--global", "user.email", "you@example.com"],
+  });
+
+  await gitRun({
+    args: ["config", "--global", "user.name", "Your Name"],
+  });
 }

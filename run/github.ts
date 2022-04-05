@@ -2,7 +2,7 @@ import { join } from "https://deno.land/std@0.123.0/path/mod.ts";
 
 import { getInput } from "../core.ts";
 import { runAction } from "./action.ts";
-import { gitCheckout } from "../git/checkout.ts";
+import { gitClone } from "../git/clone.ts";
 
 export type GithubInput = {
   repo: string;
@@ -13,7 +13,7 @@ export type GithubInput = {
 
 export async function github(input: GithubInput) {
   const { repo, ref, dest, entry } = input;
-  await gitCheckout({
+  await gitClone({
     url: `https://github.com/${repo}`,
     ref,
     dest,
