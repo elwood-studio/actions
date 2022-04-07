@@ -4,8 +4,8 @@ let server;
 let result = { code: 0, data: undefined };
 
 export async function startCommandServer(data = {}, code = 0) {
-  Deno.env.set("EXECUTION_ID", "XX_TEST");
-  Deno.env.set("EXECUTION_SERVER_URL", "http://0.0.0.0:4000");
+  Deno.env.set("__EXECUTION_ID", "XX_TEST");
+  Deno.env.set("__EXECUTION_SERVER_URL", "http://0.0.0.0:4000");
 
   const serverPath = new URL("./command_server.js", import.meta.url).href;
   server = new Worker(serverPath, {
