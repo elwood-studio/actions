@@ -22,7 +22,7 @@ export async function gitClone(input: GitCloneInput) {
   await ensureDir(dirname(_dest));
 
   await gitRun({
-    args: ["clone", "-b", ref, url, _dest],
+    args: ["clone", ref, url, _dest],
   });
 }
 
