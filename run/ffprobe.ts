@@ -1,5 +1,5 @@
 import { runCommand } from "./command.ts";
-import { getBooleanInput, getInput } from "../core.ts";
+import { inPath, getBooleanInput, getInput } from "../core.ts";
 import { fsWrite } from "../fs/write.ts";
 
 export type FFProbeOptions = {
@@ -9,7 +9,7 @@ export type FFProbeOptions = {
 export async function ffprobe(
   args: string[],
   options: FFProbeOptions = {},
-): Promise<string> {
+): Promise<[string,string,number]> {
   const cleanArgs = args.map((arg) => arg.trim()).filter((arg) => arg !== "");
 
   if (cleanArgs.length === 0) {
@@ -24,11 +24,34 @@ export async function ffprobe(
     cleanArgs.unshift("-print_format", "json");
   }
 
+   if (inPath("ffprobe")) {
+    const p = Deno.run({
+      cmd: ["ffprobe", ...cleanArgs],
+      stderr: "piped",
+      stdout: "piped"
+    });
+
+    const [status, stdout, stderr] = await Promise.all([
+  p.status(),
+  p.output(),
+  p.stderrOutput()
+]);
+    
+    p.close()
+    
+    return [
+      new TextDecoder().decode(stdout).toString(), 
+      new TextDecoder().decode(stderr).toString(),
+      status
+    ];
+  } else {  
   // we only care about the output
   // the status code is never right
   // so we ignore
   const { data } = await runCommand("ffprobe", cleanArgs);
   return data;
+
+  }
 }
 
 async function main() {
