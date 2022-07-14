@@ -3,7 +3,7 @@ import { relative } from "https://deno.land/std@0.115.1/path/mod.ts";
 import { runCommand } from "./command.ts";
 import { getInput, inPath, setOutput } from "../core.ts";
 
-export async function ffmpeg(args: string[]): Promise<[string,string]> {
+export async function ffmpeg(args: string[]): Promise<[string,string,number]> {
   const cleanArgs = args.map((arg) => arg.trim()).filter((arg) => arg !== "");
 
   if (cleanArgs.length === 0) {
@@ -40,7 +40,8 @@ export async function ffmpeg(args: string[]): Promise<[string,string]> {
     
     return [
       new TextDecoder().decode(stdout).toString(), 
-      new TextDecoder().decode(stderr).toString()
+      new TextDecoder().decode(stderr).toString(),
+      status
     ];
   } else {
     // we only care about the output
