@@ -38,7 +38,10 @@ export async function ffmpeg(args: string[]): Promise<[string,string]> {
     
     p.close()
     
-    return [stdout.toString(), stderr.toString()];
+    return [
+      new TextDecoder().decode(stdout.toString()), 
+      new TextDecoder().decode(stderr.toString())
+    ];
   } else {
     // we only care about the output
     // the status code is never right
