@@ -26,6 +26,8 @@ export async function ffmpeg(args: string[]): Promise<string> {
   if (inPath("ffmpeg")) {
     const p = Deno.run({
       cmd: ["ffmpeg", ...cleanArgs],
+      stderr: "piped",
+      stdout: "piped"
     });
 
     return (await p.output()).toString();
