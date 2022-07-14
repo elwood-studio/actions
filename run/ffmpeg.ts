@@ -30,7 +30,15 @@ export async function ffmpeg(args: string[]): Promise<[string,string]> {
       stdout: "piped"
     });
 
-    return [(await p.output()).toString(),(await p.stderrOutput()).toString()];
+    const [status, stdout, stderr] = await Promise.all([
+  p.status(),
+  p.output(),
+  p.stderrOutput()
+]);
+    
+    p.close()
+    
+    return [stdout.toString(), stderr.toString()];
   } else {
     // we only care about the output
     // the status code is never right
