@@ -3,7 +3,7 @@ import { relative } from "https://deno.land/std@0.115.1/path/mod.ts";
 import { runCommand } from "./command.ts";
 import { getInput, inPath, setOutput } from "../core.ts";
 
-export async function ffmpeg(args: string[]): Promise<string> {
+export async function ffmpeg(args: string[]): Promise<[string,string]> {
   const cleanArgs = args.map((arg) => arg.trim()).filter((arg) => arg !== "");
 
   if (cleanArgs.length === 0) {
@@ -30,7 +30,7 @@ export async function ffmpeg(args: string[]): Promise<string> {
       stdout: "piped"
     });
 
-    return (await p.output()).toString();
+    return [(await p.output()).toString(),(await p.stderrOutput()).toString()];
   } else {
     // we only care about the output
     // the status code is never right
